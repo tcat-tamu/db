@@ -31,11 +31,11 @@ import org.apache.commons.dbcp.DriverConnectionFactory;
  */
 public abstract class AbstractDataSourceFactory
 {
-    public final static String                        MAX_ACTIVE_CONNECTIONS = "Max Active Connections";
-    public final static String                        MAX_IDLE_CONNECTIONS   = "Max Idle Connections";
+   public final static String MAX_ACTIVE_CONNECTIONS = "Max Active Connections";
+   public final static String MAX_IDLE_CONNECTIONS   = "Max Idle Connections";
 
-    //TODO: a Properties is an unsafe map key because it is mutable.
-    protected Map<Properties, BasicDataSource> dataSources            = new HashMap<Properties, BasicDataSource>();
+    //FIXME: a Properties is an unsafe map key because it is mutable.
+    protected Map<Properties, BasicDataSource> dataSources = new HashMap<>();
 
     /**
      * Get the driver for the concrete database type
@@ -123,9 +123,7 @@ public abstract class AbstractDataSourceFactory
      * */
     public void shutdown() throws DataSourceException
     {
-        // convert thrown exception into a 1.7 multi-exception
-        DataSourceCompositeException exception = new DataSourceCompositeException("Error closing " +
-                                                                                  getClass().getName() + "datasources");
+        DataSourceException exception = new DataSourceException("Error closing " + getClass().getName() + "datasources");
         for (BasicDataSource ds : dataSources.values())
         {
             try
@@ -134,10 +132,10 @@ public abstract class AbstractDataSourceFactory
             }
             catch (Exception e)
             {
-                exception.addException(exception);
+                exception.addSuppressed(exception);
             }
         }
-        if (exception.getNested().iterator().hasNext())
+        if (exception.getSuppressed().length == 0)
             throw exception;
     }
 

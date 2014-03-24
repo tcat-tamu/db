@@ -26,7 +26,8 @@
     <module>citd.db/releng/edu.tamu.tcat.db.repo.product</module>
     <module>citd.db/releng/edu.tamu.tcat.db.sdk.feature</module>
 
-    <module>citd.db/bundles/edu.tamu.tcat.db.</module>
+    <module>citd.db/bundles/edu.tamu.tcat.db.core</module>
+    <module>citd.db/bundles/edu.tamu.tcat.db.postgresql</module>
   </modules>
 
   <repositories>

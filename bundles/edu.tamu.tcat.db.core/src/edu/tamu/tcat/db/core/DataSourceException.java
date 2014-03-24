@@ -31,4 +31,9 @@ public class DataSourceException extends Exception
     {
         super(message, cause);
     }
+    
+    public DataSourceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    {
+       super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

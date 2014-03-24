@@ -7,6 +7,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.postgresql;bundle-version="9.2.1002",
  org.postgis;bundle-version="2.1.0";resolution:=optional
 Bundle-ClassPath: .
-Export-Package: edu.tamu.tcat.db.postgresql
+Export-Package: edu.tamu.tcat.db.postgresql;version="1.0.0"
 Bundle-Vendor: Texas A&M Engineering Experiment Station
 Import-Package: edu.tamu.tcat.db.core;version="1.0.0"
