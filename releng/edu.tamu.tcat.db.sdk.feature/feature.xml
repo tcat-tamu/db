@@ -49,14 +49,14 @@
          id="org.postgis"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="2.1.0"
          unpack="false"/>
 
    <plugin
          id="org.postgresql"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="9.2.1002"
          unpack="false"/>
 
 </feature>
