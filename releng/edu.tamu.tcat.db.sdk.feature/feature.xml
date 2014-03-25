@@ -2,7 +2,7 @@
 <feature
       id="edu.tamu.tcat.db.sdk.feature"
       label="CITD Database Utilities SDK"
-      version="1.0.0.qualifier"
+      version="1.0.1.qualifier"
       provider-name="Texas A&amp;M Engineering Experiment Station">
 
    <description url="http://www.example.com/description">
@@ -23,7 +23,7 @@
          install-size="0"
          version="1.0.0.qualifier"
          unpack="false"/>
-         
+
    <plugin
          id="edu.tamu.tcat.db.postgresql.source"
          download-size="0"
@@ -40,6 +40,20 @@
 
    <plugin
          id="edu.tamu.tcat.db.core.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.postgis"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.postgresql"
          download-size="0"
          install-size="0"
          version="0.0.0"
