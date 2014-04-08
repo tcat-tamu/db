@@ -2,7 +2,7 @@
 <feature
       id="edu.tamu.tcat.db.sdk.feature"
       label="CITD Database Utilities SDK"
-      version="1.0.1.qualifier"
+      version="1.0.2.qualifier"
       provider-name="Texas A&amp;M Engineering Experiment Station">
 
    <description url="http://www.example.com/description">
@@ -35,7 +35,7 @@
          id="edu.tamu.tcat.db.core"
          download-size="0"
          install-size="0"
-         version="1.0.0.qualifier"
+         version="1.0.1.qualifier"
          unpack="false"/>
 
    <plugin
