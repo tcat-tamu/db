@@ -135,7 +135,7 @@ public abstract class AbstractDataSourceFactory
                 exception.addSuppressed(exception);
             }
         }
-        if (exception.getSuppressed().length == 0)
+        if (exception.getSuppressed().length != 0)
             throw exception;
     }
 
