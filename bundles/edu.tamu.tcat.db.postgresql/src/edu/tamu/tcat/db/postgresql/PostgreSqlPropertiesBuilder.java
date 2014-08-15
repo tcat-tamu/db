@@ -22,6 +22,9 @@ public class PostgreSqlPropertiesBuilder extends AbstractDatasourcePropertiesBui
    public static final String USER = "user";
    public static final String DOMAIN = "domain";
    public static final String PASSWORD = "password";
+   /**
+    * @since 1.1
+    */
    public static final String SSL = "ssl";
 
    // do these need to be removed from create in ds
@@ -124,6 +127,9 @@ public class PostgreSqlPropertiesBuilder extends AbstractDatasourcePropertiesBui
       return this;
    }
 
+   /**
+    * @since 1.1
+    */
    public PostgreSqlPropertiesBuilder setUseSsl(boolean ssl)
    {
       if (!ssl)
