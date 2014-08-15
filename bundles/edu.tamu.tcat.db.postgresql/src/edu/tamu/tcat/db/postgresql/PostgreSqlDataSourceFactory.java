@@ -38,6 +38,7 @@ public class PostgreSqlDataSourceFactory extends AbstractDataSourceFactory
     protected Properties getConnectionProperties(Properties parameters)
     {
         Properties prop = new Properties(parameters);
+        // Remove properties used to pass into the PostgreSqlPropertiesBuilder that do not belong in the set sent to PostgreSQL
         prop.remove(PostgreSqlPropertiesBuilder.HOST);
         prop.remove(PostgreSqlPropertiesBuilder.DATABASE);
         prop.remove(PostgreSqlPropertiesBuilder.PORT);
