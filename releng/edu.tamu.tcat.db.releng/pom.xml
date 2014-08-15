@@ -14,7 +14,7 @@
   <properties>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <tycho.showEclipseLog>false</tycho.showEclipseLog>
-    <tycho-version>0.19.0</tycho-version>
+    <tycho-version>0.21.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -32,9 +32,19 @@
 
   <repositories>
     <repository>
-      <id>CITD RAP 2.x P2 Repository</id>
+      <id>Eclipse Mirror p2 Repository</id>
       <layout>p2</layout>
-      <url>${repo-base-url}/CITD%20RAP%202.0%20Target%20Platform/lastSuccessfulBuild/artifact/targetPlatform</url>
+      <url>${repo-base-url}/Eclipse.Repository.Mirror.Luna/lastSuccessfulBuild/artifact/target/repository</url>
+    </repository>
+    <repository>
+      <id>Eclipse Orbit</id>
+      <layout>p2</layout>
+      <url>${repo-base-url}/Eclipse%20Orbit%20Repository%20Mirror/lastSuccessfulBuild/artifact/target/repository/</url>
+    </repository>
+    <repository>
+      <id>Core Deps</id>
+      <layout>p2</layout>
+      <url>${repo-base-url}/mirror.dependencies/lastSuccessfulBuild/artifact/targetPlatform/</url>
     </repository>
   </repositories>
 
@@ -74,6 +84,7 @@
         <configuration>
           <timestampProvider>jgit</timestampProvider>
           <format>yyyyMMdd-HHmm</format>
+          <jgit.dirtyWorkingTree>warning</jgit.dirtyWorkingTree>
         </configuration>
       </plugin>
       <plugin>
