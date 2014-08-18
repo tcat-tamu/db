@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: edu.tamu.tcat.db.postgres
 Bundle-SymbolicName: edu.tamu.tcat.db.postgresql
 Bundle-Version: 1.1.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.postgresql;bundle-version="9.2.0"
 Bundle-ClassPath: .
 Export-Package: edu.tamu.tcat.db.postgresql;version="1.1.0"
