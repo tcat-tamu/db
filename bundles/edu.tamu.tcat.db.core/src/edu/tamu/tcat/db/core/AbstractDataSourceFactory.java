@@ -55,7 +55,7 @@ public abstract class AbstractDataSourceFactory
 
     /**
      * Create a new {@link BasicDataSource} from the specified {@link DSProperties}
-     * */
+     */
     protected synchronized BasicDataSource createDataSource(final Properties parameters) throws DataSourceException
     {
         BasicDataSource dataSource;
@@ -68,7 +68,7 @@ public abstract class AbstractDataSourceFactory
             @Override
             protected ConnectionFactory createConnectionFactory() throws SQLException
             {
-                //The loading of the driver via class-loader is completely utterly broken in the super.
+                //The loading of the driver via class-loader does not work properly in OSGI.
 
                 if (driver.acceptsURL(getUrl()))
                 {
