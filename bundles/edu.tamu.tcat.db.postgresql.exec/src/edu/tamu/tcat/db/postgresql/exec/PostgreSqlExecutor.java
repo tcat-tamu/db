@@ -60,7 +60,7 @@ public class PostgreSqlExecutor implements SqlExecutor
 
          if (!terminated)
          {
-            DB_LOGGER.log(Level.SEVERE, "DBExecutor failed to complete all tasks.");
+            DB_LOGGER.log(Level.SEVERE, "SqlExecutor failed to complete all tasks.");
             executor.shutdownNow();
          }
       }
