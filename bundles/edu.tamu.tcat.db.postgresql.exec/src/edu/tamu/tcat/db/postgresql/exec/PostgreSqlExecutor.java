@@ -18,14 +18,10 @@ import edu.tamu.tcat.db.provider.DataSourceProvider;
 
 public class PostgreSqlExecutor implements SqlExecutor
 {
-   public static final Logger DB_LOGGER = Logger.getLogger("edu.tamu.tcat.oss.db.hsqldb");
+   private static final Logger debug = Logger.getLogger(PostgreSqlExecutor.class.getName());
 
    private ExecutorService executor;
    private DataSource dataSource;
-
-   public PostgreSqlExecutor()
-   {
-   }
 
    public void init(DataSourceProvider dsp) throws DataSourceException
    {
@@ -60,7 +56,7 @@ public class PostgreSqlExecutor implements SqlExecutor
 
          if (!terminated)
          {
-            DB_LOGGER.log(Level.SEVERE, "SqlExecutor failed to complete all tasks.");
+            debug.log(Level.SEVERE, "SqlExecutor failed to complete all tasks.");
             executor.shutdownNow();
          }
       }
