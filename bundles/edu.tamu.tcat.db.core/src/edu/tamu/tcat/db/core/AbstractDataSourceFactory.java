@@ -75,8 +75,9 @@ public abstract class AbstractDataSourceFactory
             {
                //The loading of the driver via class-loader does not work properly in OSGI.
 
-               if (!driver.acceptsURL(getUrl()))
-                  throw new IllegalStateException("Invalid database URL provided to driver: " + connectionUrl);
+               String dataSourceUrl = getUrl();
+               if (!driver.acceptsURL(dataSourceUrl))
+                  throw new IllegalStateException("Invalid database URL provided to driver: " + dataSourceUrl);
                
                if (getValidationQuery() == null)
                {
