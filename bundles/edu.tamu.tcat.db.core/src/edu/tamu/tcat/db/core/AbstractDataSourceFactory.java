@@ -73,21 +73,21 @@ public abstract class AbstractDataSourceFactory
             @Override
             protected ConnectionFactory createConnectionFactory() throws SQLException
             {
-                //The loading of the driver via class-loader does not work properly in OSGI.
+               //The loading of the driver via class-loader does not work properly in OSGI.
 
-                if (driver.acceptsURL(getUrl()))
-                {
-                    if (getValidationQuery() == null)
-                    {
-                        setTestOnBorrow(false);
-                        setTestOnReturn(false);
-                        setTestWhileIdle(false);
-                    }
+               String dataSourceUrl = getUrl();
+               if (!driver.acceptsURL(dataSourceUrl))
+                  throw new IllegalStateException("Invalid database URL provided to driver: " + dataSourceUrl);
+               
+               if (getValidationQuery() == null)
+               {
+                  setTestOnBorrow(false);
+                  setTestOnReturn(false);
+                  setTestWhileIdle(false);
+               }
 
-                    ConnectionFactory driverConnectionFactory = new DriverConnectionFactory(driver, connectionUrl, connectionProps);
-                    return driverConnectionFactory;
-                }
-                return super.createConnectionFactory();
+               ConnectionFactory driverConnectionFactory = new DriverConnectionFactory(driver, connectionUrl, connectionProps);
+               return driverConnectionFactory;
             }
         };
         //         dataSource.setDriverClassLoader(Driver.class.getClassLoader());
