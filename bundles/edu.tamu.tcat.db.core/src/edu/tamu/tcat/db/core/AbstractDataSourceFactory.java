@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import org.apache.commons.dbcp.DriverConnectionFactory;
 /**
  * A base class for a factory providing {@link DataSource} instances. Subclasses accept configurations as
  * {@link Properties} and configure appropriate data sources.
- * 
+ *
  * @see edu.tamu.tcat.db.provider.DataSourceProvider
  */
 public abstract class AbstractDataSourceFactory
@@ -78,7 +78,7 @@ public abstract class AbstractDataSourceFactory
                String dataSourceUrl = getUrl();
                if (!driver.acceptsURL(dataSourceUrl))
                   throw new IllegalStateException("Invalid database URL provided to driver: " + dataSourceUrl);
-               
+
                if (getValidationQuery() == null)
                {
                   setTestOnBorrow(false);
@@ -88,6 +88,12 @@ public abstract class AbstractDataSourceFactory
 
                ConnectionFactory driverConnectionFactory = new DriverConnectionFactory(driver, connectionUrl, connectionProps);
                return driverConnectionFactory;
+            }
+
+            @Override
+            public String toString()
+            {
+               return "DataSource["+getUrl()+"]";
             }
         };
         //         dataSource.setDriverClassLoader(Driver.class.getClassLoader());
