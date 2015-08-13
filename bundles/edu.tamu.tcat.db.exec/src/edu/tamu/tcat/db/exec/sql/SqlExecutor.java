@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 Texas A&M Engineering Experiment Station
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package edu.tamu.tcat.db.exec.sql;
 
 import java.sql.Connection;
@@ -18,7 +33,7 @@ public interface SqlExecutor extends AutoCloseable
     * @return A {@link Future}
     */
    <X> Future<X> submit(ExecutorTask<X> task);
-   
+
    /**
     * A task for execution by ay {@link SqlExecutor}.
     * <p>
@@ -28,7 +43,7 @@ public interface SqlExecutor extends AutoCloseable
     * on the same data source. Since data source access drivers are typically not declared to be thread-safe
     * and therefore all requests are handled in a single thread, any
     * other calls that need to execute against the same data source will deadlock waiting while for this task to complete.
-    * 
+    *
     * @param <T> The type of result returned from the task's execution.
     */
    interface ExecutorTask<T>
@@ -41,7 +56,7 @@ public interface SqlExecutor extends AutoCloseable
        * <p>
        * In the event of an exception, the executor for the task may attempt to roll-back any pending changes according
        * to its implementation and configuration. This may be a feature specific to certain data source implementations.
-       * 
+       *
        * @param conn The data base {@link Connection} to be used as the target.
        * @return The result of the task. This may be {@code null}.
        * @throws Exception If the task is not able to complete.

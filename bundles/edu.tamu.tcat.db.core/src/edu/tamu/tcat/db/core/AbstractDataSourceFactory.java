@@ -1,13 +1,18 @@
-/*******************************************************************************
- * Copyright © 2007-14, All Rights Reserved.
- * Texas Center for Applied Technology
- * Texas A&M Engineering Experiment Station
- * The Texas A&M University System
- * College Station, Texas, USA 77843
+/*
+ * Copyright 2014 Texas A&M Engineering Experiment Station
  *
- * Use is granted only to authorized licensee.
- * Proprietary information, not for redistribution.
- ******************************************************************************/
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package edu.tamu.tcat.db.core;
 
@@ -26,7 +31,7 @@ import org.apache.commons.dbcp.DriverConnectionFactory;
 /**
  * A base class for a factory providing {@link DataSource} instances. Subclasses accept configurations as
  * {@link Properties} and configure appropriate data sources.
- * 
+ *
  * @see edu.tamu.tcat.db.provider.DataSourceProvider
  */
 public abstract class AbstractDataSourceFactory
@@ -55,7 +60,7 @@ public abstract class AbstractDataSourceFactory
 
     /**
      * Create a new {@link BasicDataSource} from the specified {@link DSProperties}
-     * */
+     */
     protected synchronized BasicDataSource createDataSource(final Properties parameters) throws DataSourceException
     {
         BasicDataSource dataSource;
@@ -68,21 +73,27 @@ public abstract class AbstractDataSourceFactory
             @Override
             protected ConnectionFactory createConnectionFactory() throws SQLException
             {
-                //The loading of the driver via class-loader is completely utterly broken in the super.
+               //The loading of the driver via class-loader does not work properly in OSGI.
 
-                if (driver.acceptsURL(getUrl()))
-                {
-                    if (getValidationQuery() == null)
-                    {
-                        setTestOnBorrow(false);
-                        setTestOnReturn(false);
-                        setTestWhileIdle(false);
-                    }
+               String dataSourceUrl = getUrl();
+               if (!driver.acceptsURL(dataSourceUrl))
+                  throw new IllegalStateException("Invalid database URL provided to driver: " + dataSourceUrl);
 
-                    ConnectionFactory driverConnectionFactory = new DriverConnectionFactory(driver, connectionUrl, connectionProps);
-                    return driverConnectionFactory;
-                }
-                return super.createConnectionFactory();
+               if (getValidationQuery() == null)
+               {
+                  setTestOnBorrow(false);
+                  setTestOnReturn(false);
+                  setTestWhileIdle(false);
+               }
+
+               ConnectionFactory driverConnectionFactory = new DriverConnectionFactory(driver, connectionUrl, connectionProps);
+               return driverConnectionFactory;
+            }
+
+            @Override
+            public String toString()
+            {
+               return "DataSource["+getUrl()+"]";
             }
         };
         //         dataSource.setDriverClassLoader(Driver.class.getClassLoader());
