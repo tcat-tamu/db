@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,10 @@ import edu.tamu.tcat.db.core.DataSourceException;
 import edu.tamu.tcat.db.exec.sql.SqlExecutor;
 import edu.tamu.tcat.db.provider.DataSourceProvider;
 
-public class PostgreSqlExecutor implements SqlExecutor
+/**
+ * This executor implementation has lifecycle, and should be {@link #close()}d when the application determines its lifecycle is complete.
+ */
+public class PostgreSqlExecutor implements SqlExecutor, AutoCloseable
 {
    private static final Logger debug = Logger.getLogger(PostgreSqlExecutor.class.getName());
 
