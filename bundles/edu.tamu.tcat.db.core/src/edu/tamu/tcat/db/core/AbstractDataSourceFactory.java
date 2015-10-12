@@ -33,7 +33,9 @@ import org.apache.commons.dbcp.DriverConnectionFactory;
  * {@link Properties} and configure appropriate data sources.
  *
  * @see edu.tamu.tcat.db.provider.DataSourceProvider
+ * @deprecated Implementation is bound to Apache DBCP v1
  */
+@Deprecated
 public abstract class AbstractDataSourceFactory
 {
    public final static String MAX_ACTIVE_CONNECTIONS = "Max Active Connections";
