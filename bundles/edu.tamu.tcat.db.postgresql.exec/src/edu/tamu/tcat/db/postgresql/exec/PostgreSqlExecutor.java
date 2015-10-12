@@ -53,6 +53,12 @@ public class PostgreSqlExecutor implements SqlExecutor, AutoCloseable
       }
 
       //TODO: should a watchdog thread be added to kill tasks that take too long?
+
+      // NOTE: https://jdbc.postgresql.org/documentation/94/thread.html
+      //       According to the PostgreSQL JDBC docs, the driver IS thread-safe, and will block other calls attempting
+      //       to use the same Connection, so they recommend connection pooling. Apache DBCP (v1) has issues in
+      //       scalability, and DBCP2 is being used successfully in some places. This executor need not be
+      //       single-threaded depending on the connection pooling mechanism used.
       this.executor = Executors.newSingleThreadExecutor();
    }
 
