@@ -41,7 +41,22 @@ public class PostgreSqlExecutor implements SqlExecutor, AutoCloseable
    private ExecutorService executor;
    private DataSource dataSource;
 
+   /**
+    * Initialize this executor with a single thread for SQL task execution.
+    */
    public void init(DataSourceProvider dsp) throws DataSourceException
+   {
+      init(dsp, Integer.valueOf(1));
+   }
+
+   /**
+    * Initialize this executor with a custom number of threads for SQL task execution.
+    *
+    * @param numThreads If 1, 0, or negative, will be single-threaded; if {@code null}, will be unbounded,
+    *        otherwise will use no more concurrent threads than the count provided (i.e. fixed pool)
+    * @since 1.2
+    */
+   public void init(DataSourceProvider dsp, Integer numThreads) throws DataSourceException
    {
       try
       {
@@ -59,7 +74,12 @@ public class PostgreSqlExecutor implements SqlExecutor, AutoCloseable
       //       to use the same Connection, so they recommend connection pooling. Apache DBCP (v1) has issues in
       //       scalability, and DBCP2 is being used successfully in some places. This executor need not be
       //       single-threaded depending on the connection pooling mechanism used.
-      this.executor = Executors.newSingleThreadExecutor();
+      if (numThreads == null)
+         this.executor = Executors.newCachedThreadPool();
+      else if (numThreads.intValue() <= 1)
+         this.executor = Executors.newSingleThreadExecutor();
+      else
+         this.executor = Executors.newFixedThreadPool(numThreads.intValue());
    }
 
    @Override
