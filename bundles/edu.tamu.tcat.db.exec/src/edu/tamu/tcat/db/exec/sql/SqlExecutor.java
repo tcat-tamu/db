@@ -20,10 +20,8 @@ import java.util.concurrent.Future;
 
 /**
  * Runs {@link SqlExecutor.ExecutorTask}s.
- * <p>
- * An executor has lifecycle, and should be {@link #close()}d when the application determines its lifecycle is complete.
  */
-public interface SqlExecutor extends AutoCloseable
+public interface SqlExecutor
 {
    /**
     * Schedules a task for execution and returns a {@link Future} that the caller can use to access the result of the

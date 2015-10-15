@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,14 +31,32 @@ import edu.tamu.tcat.db.core.DataSourceException;
 import edu.tamu.tcat.db.exec.sql.SqlExecutor;
 import edu.tamu.tcat.db.provider.DataSourceProvider;
 
-public class PostgreSqlExecutor implements SqlExecutor
+/**
+ * This executor implementation has lifecycle, and should be {@link #close()}d when the application determines its lifecycle is complete.
+ */
+public class PostgreSqlExecutor implements SqlExecutor, AutoCloseable
 {
    private static final Logger debug = Logger.getLogger(PostgreSqlExecutor.class.getName());
 
    private ExecutorService executor;
    private DataSource dataSource;
 
+   /**
+    * Initialize this executor with a single thread for SQL task execution.
+    */
    public void init(DataSourceProvider dsp) throws DataSourceException
+   {
+      init(dsp, Integer.valueOf(1));
+   }
+
+   /**
+    * Initialize this executor with a custom number of threads for SQL task execution.
+    *
+    * @param numThreads If 1, 0, or negative, will be single-threaded; if {@code null}, will be unbounded,
+    *        otherwise will use no more concurrent threads than the count provided (i.e. fixed pool)
+    * @since 1.2
+    */
+   public void init(DataSourceProvider dsp, Integer numThreads) throws DataSourceException
    {
       try
       {
@@ -50,7 +68,18 @@ public class PostgreSqlExecutor implements SqlExecutor
       }
 
       //TODO: should a watchdog thread be added to kill tasks that take too long?
-      this.executor = Executors.newSingleThreadExecutor();
+
+      // NOTE: https://jdbc.postgresql.org/documentation/94/thread.html
+      //       According to the PostgreSQL JDBC docs, the driver IS thread-safe, and will block other calls attempting
+      //       to use the same Connection, so they recommend connection pooling. Apache DBCP (v1) has issues in
+      //       scalability, and DBCP2 is being used successfully in some places. This executor need not be
+      //       single-threaded depending on the connection pooling mechanism used.
+      if (numThreads == null)
+         this.executor = Executors.newCachedThreadPool();
+      else if (numThreads.intValue() <= 1)
+         this.executor = Executors.newSingleThreadExecutor();
+      else
+         this.executor = Executors.newFixedThreadPool(numThreads.intValue());
    }
 
    @Override
