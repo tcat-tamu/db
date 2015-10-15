@@ -31,6 +31,9 @@ import org.apache.commons.dbcp2.DriverConnectionFactory;
 import edu.tamu.tcat.db.core.AbstractDataSourceFactory;
 import edu.tamu.tcat.db.core.DataSourceException;
 
+/**
+ * @since 1.3
+ */
 public class PostgreSqlDbcp2DataSourceFactory
 {
    // The Properties key is ensured immutable to make it a safe key
