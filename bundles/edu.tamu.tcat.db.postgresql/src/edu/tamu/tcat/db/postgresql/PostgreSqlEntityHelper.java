@@ -32,7 +32,7 @@ public class PostgreSqlEntityHelper
     * @param connDefaultDb A connection to the db server on the database ""
     * @param targetDatabase The name of the database to create
     */
-   public static void createDatabaseIfNotExists(Connection connDefaultDb, String targetDatabase)
+   public static boolean createDatabase(Connection connDefaultDb, String targetDatabase)
    {
       String sqlCheck = "SELECT EXISTS (SELECT * FROM pg_catalog.pg_database WHERE datname = ?)";
       try (PreparedStatement existsCheck = connDefaultDb.prepareStatement(sqlCheck))
@@ -43,19 +43,19 @@ public class PostgreSqlEntityHelper
             if (!results.next())
             {
                debug.log(Level.WARNING, "Failed testing for database existence ["+sqlCheck+"]");
-               return;
+               return false;
             }
 
             boolean exists = results.getBoolean(1);
             if (exists)
-               return;
+               return false;
          }
       }
       catch (Exception e)
       {
          debug.log(Level.SEVERE, "Failed checking for existence of database ["+targetDatabase+"] with sql ["+sqlCheck+"]", e);
          // don't try to create if exist check failed
-         return;
+         return false;
       }
 
       debug.log(Level.INFO, "Database [" + targetDatabase + "] not found, creating it now");
@@ -63,11 +63,12 @@ public class PostgreSqlEntityHelper
       try (PreparedStatement create = connDefaultDb.prepareStatement(sqlCreate))
       {
          create.executeUpdate();
+         return true;
       }
       catch (Exception e)
       {
          debug.log(Level.SEVERE, "Failed creating database ["+targetDatabase+"] with sql ["+sqlCreate+"]", e);
-         return;
+         return false;
       }
    }
 
@@ -77,7 +78,7 @@ public class PostgreSqlEntityHelper
     *
     * @param conn
     */
-   public static void createExtensionPostGis(Connection conn)
+   public static boolean createExtensionPostGis(Connection conn)
    {
       debug.log(Level.INFO, "Installing PostGIS extensions");
 
@@ -89,10 +90,11 @@ public class PostgreSqlEntityHelper
       {
          debug.log(Level.WARNING, "Cannot create PostGIS extension, the package may need to be installed on the db server", e);
       }
+      return true;
    }
 
    //NOTE: if these SQL statements fail, things are likely still okay; if the db is in trouble, using the schema later will fail
-   public static void createSchemaIfNotExists(Connection conn, String targetSchemaName)
+   public static boolean createSchema(Connection conn, String targetSchemaName)
    {
       String sqlCheck = "SELECT EXISTS(SELECT schema_name FROM information_schema.schemata WHERE schema_name = ?)";
       try (PreparedStatement existsCheck = conn.prepareStatement(sqlCheck))
@@ -103,20 +105,20 @@ public class PostgreSqlEntityHelper
             if (!results.next())
             {
                debug.log(Level.WARNING, "Failed testing for schema existence ["+sqlCheck+"]");
-               return;
+               return false;
             }
 
             boolean exists = results.getBoolean(1);
             // schema already exists, exit early
             if (exists)
-               return;
+               return false;
          }
       }
       catch (Exception e)
       {
          debug.log(Level.SEVERE, "Failed checking for existence of schema ["+targetSchemaName+"] with sql ["+sqlCheck+"]", e);
          // don't try to create if exist check failed
-         return;
+         return false;
       }
 
       String sqlCreate = "CREATE SCHEMA \"" + targetSchemaName + "\"";
@@ -124,10 +126,12 @@ public class PostgreSqlEntityHelper
       {
          debug.log(Level.INFO, "Schema [" + targetSchemaName + "] not found, creating it now");
          create.executeUpdate();
+         return true;
       }
       catch (Exception e)
       {
          debug.log(Level.SEVERE, "Failed creating schema ["+targetSchemaName+"] with sql ["+sqlCreate+"]", e);
+         return false;
       }
    }
 }
