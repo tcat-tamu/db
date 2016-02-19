@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 /**
  * A set of utilities to help build database entities in PostgreSQL, such as databases and schemas.
+ * @since 1.4
  */
 public class PostgreSqlEntityHelper
 {
