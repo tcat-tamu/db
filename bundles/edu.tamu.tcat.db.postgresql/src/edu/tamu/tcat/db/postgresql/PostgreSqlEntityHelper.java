@@ -81,8 +81,31 @@ public class PostgreSqlEntityHelper
     */
    public static boolean createExtensionPostGis(Connection conn)
    {
-      debug.log(Level.INFO, "Installing PostGIS extensions");
+      String sqlCheck = "SELECT EXISTS(select * from pg_extension where extname = 'postgis')";
+      try (PreparedStatement existsCheck = conn.prepareStatement(sqlCheck))
+      {
+         try (ResultSet results = existsCheck.executeQuery())
+         {
+            if (!results.next())
+            {
+               debug.log(Level.WARNING, "Failed testing for extension existence ["+sqlCheck+"]");
+               return false;
+            }
 
+            boolean exists = results.getBoolean(1);
+            // schema already exists, exit early
+            if (exists)
+               return false;
+         }
+      }
+      catch (Exception e)
+      {
+         debug.log(Level.SEVERE, "Failed checking for existence of extension [postgis] with sql ["+sqlCheck+"]", e);
+         // don't try to create if exist check failed
+         return false;
+      }
+
+      debug.log(Level.INFO, "Installing PostGIS extensions");
       try (PreparedStatement install = conn.prepareStatement("CREATE EXTENSION postgis"))
       {
          install.executeUpdate();
