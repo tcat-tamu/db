@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Texas A&M Engineering Experiment Station
+ * Copyright 2014-2016 Texas A&M Engineering Experiment Station
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ public class PostgreSqlEntityHelper
    private static final Logger debug = Logger.getLogger(PostgreSqlEntityHelper.class.getName());
 
    /**
-    * @param connDefaultDb A connection to the db server on the database ""
+    * @param connDefaultDb A connection to the db server on the database "postgres"
     * @param targetDatabase The name of the database to create
     */
    public static boolean createDatabase(Connection connDefaultDb, String targetDatabase)
@@ -145,6 +145,7 @@ public class PostgreSqlEntityHelper
          return false;
       }
 
+      debug.log(Level.INFO, "Schema [" + targetSchemaName + "] not found, creating it now");
       String sqlCreate = "CREATE SCHEMA \"" + targetSchemaName + "\"";
       try (PreparedStatement create = conn.prepareStatement(sqlCreate))
       {
