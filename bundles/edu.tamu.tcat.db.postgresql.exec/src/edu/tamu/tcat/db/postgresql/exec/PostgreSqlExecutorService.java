@@ -4,9 +4,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,6 +15,9 @@
  */
 package edu.tamu.tcat.db.postgresql.exec;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import edu.tamu.tcat.db.provider.DataSourceProvider;
 
 /**
@@ -22,13 +25,15 @@ import edu.tamu.tcat.db.provider.DataSourceProvider;
  */
 public class PostgreSqlExecutorService extends PostgreSqlExecutor
 {
+   private static final Logger debug = Logger.getLogger(PostgreSqlExecutorService.class.getName());
+
    private DataSourceProvider bindProvider;
 
    public void bind(DataSourceProvider dsp)
    {
       this.bindProvider = dsp;
    }
-   
+
    public void activate()
    {
       try
@@ -37,10 +42,12 @@ public class PostgreSqlExecutorService extends PostgreSqlExecutor
       }
       catch (Exception e)
       {
+         // Note: log because the runtime will not print this exception otherwise
+         debug.log(Level.SEVERE, "Failed initialization", e);
          throw new IllegalStateException("Failed initialization", e);
       }
    }
-   
+
    public void dispose()
    {
       close();
