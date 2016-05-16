@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature id="edu.tamu.tcat.db.sdk.feature" version="1.2.1.qualifier">
+   <feature id="edu.tamu.tcat.db.sdk.feature" version="1.2.2.qualifier">
       <category name="edu.tamu.tcat.oss"/>
    </feature>
 </site>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2016 Texas A&M Engineering Experiment Station
+ * Copyright 2014 Texas A&M Engineering Experiment Station
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
