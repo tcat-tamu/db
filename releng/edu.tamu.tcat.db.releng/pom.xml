@@ -35,8 +35,7 @@
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.7</java.version>
-    <repo-base-url>https://build.citd.tamu.edu/hudson/job</repo-base-url>
+    <java.version>1.8</java.version>
   </properties>
   
   <modules>
@@ -53,17 +52,17 @@
     <repository>
       <id>Eclipse Mirror p2 Repository</id>
       <layout>p2</layout>
-      <url>${repo-base-url}/Eclipse.Repository.Mirror.Luna/lastSuccessfulBuild/artifact/target/repository</url>
+      <url>https://build.citd.tamu.edu/hudson/job/Eclipse.Repository.Mirror.Luna/lastSuccessfulBuild/artifact/target/repository</url>
     </repository>
     <repository>
       <id>Eclipse Orbit</id>
       <layout>p2</layout>
-      <url>${repo-base-url}/Eclipse%20Orbit%20Repository%20Mirror/lastSuccessfulBuild/artifact/target/repository/</url>
+      <url>https://download.citd.tamu.edu/mirror/eclipse.orbit.repository.mirror/</url>
     </repository>
     <repository>
       <id>Core Deps</id>
       <layout>p2</layout>
-      <url>${repo-base-url}/mirror.dependencies/lastSuccessfulBuild/artifact/targetPlatform/</url>
+      <url>https://download.citd.tamu.edu/mirror/tcat.dependencies/</url>
     </repository>
   </repositories>
 
