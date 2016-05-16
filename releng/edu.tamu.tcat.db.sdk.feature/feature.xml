@@ -33,14 +33,14 @@ limitations under the License.
          id="edu.tamu.tcat.db.postgresql"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.4.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.source"
          download-size="0"
          install-size="0"
-         version="1.4.0.qualifier"
+         version="1.4.1.qualifier"
          unpack="false"/>
 
    <plugin
@@ -89,14 +89,14 @@ limitations under the License.
          id="edu.tamu.tcat.db.postgresql.exec"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.2.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.exec.source"
          download-size="0"
          install-size="0"
-         version="1.2.0.qualifier"
+         version="1.2.1.qualifier"
          unpack="false"/>
 
 </feature>
