@@ -17,10 +17,9 @@ package edu.tamu.tcat.db.postgresql.exec;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,46 +106,53 @@ public class PostgreSqlExecutor implements SqlExecutor, AutoCloseable
    }
 
    @Override
-   public <T> Future<T> submit(SqlExecutor.ExecutorTask<T> task)
+   public <T> CompletableFuture<T> submit(SqlExecutor.ExecutorTask<T> task)
    {
-      // TODO to allow cancellation, timeouts, etc, should grab returned future.
-      ExecutionTaskRunner<T> runner = new ExecutionTaskRunner<T>(dataSource, task);
-      return executor.submit(runner);
+      CompletableFuture<T> result = new CompletableFuture<>();
+      executor.execute(new ExecutionTaskRunner<>(task, result));
+      return result;
    }
 
-   private static class ExecutionTaskRunner<T> implements Callable<T>
+   private class ExecutionTaskRunner<T> implements Runnable
    {
       private final SqlExecutor.ExecutorTask<T> task;
-      private final DataSource ds;
+      private final CompletableFuture<T> future;
 
-      ExecutionTaskRunner(DataSource ds, SqlExecutor.ExecutorTask<T> task)
+      ExecutionTaskRunner(SqlExecutor.ExecutorTask<T> task, CompletableFuture<T> future)
       {
-         this.ds = ds;
          this.task = task;
+         this.future = future;
       }
 
       @Override
-      public T call() throws Exception
+      public void run()
       {
-         try (Connection conn = ds.getConnection())
+         try (Connection conn = dataSource.getConnection())
          {
+            if (future.isCancelled())
+               throw new InterruptedException();
+
             try
             {
-               return task.execute(conn);
+               conn.setAutoCommit(false);
+               T result = task.execute(conn);
+               conn.commit();
+               future.complete(result);
             }
             catch (Exception ex)
             {
-               try
-               {
+               try  {
                   conn.rollback();
-               }
-               catch (Exception e)
-               {
+               } catch (Exception e) {
                   ex.addSuppressed(e);
                }
 
-               throw ex;
+               future.completeExceptionally(ex);
             }
+         }
+         catch (Exception ex) {
+            // TODO add better messaging.
+            future.completeExceptionally(ex);
          }
       }
    }
