@@ -16,6 +16,7 @@
 package edu.tamu.tcat.db.exec.sql;
 
 import java.sql.Connection;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
@@ -30,7 +31,9 @@ public interface SqlExecutor
     * @param task The task to submit for execution.
     * @return A {@link Future}
     */
-   <X> Future<X> submit(ExecutorTask<X> task);
+   <X> CompletableFuture<X> submit(ExecutorTask<X> task);
+
+   // TODO accept multiple tasks to be run as a transaction
 
    /**
     * A task for execution by ay {@link SqlExecutor}.
@@ -60,5 +63,15 @@ public interface SqlExecutor
        * @throws Exception If the task is not able to complete.
        */
       T execute(Connection conn) throws Exception;
+
+      default T execute(Connection conn, ExecutionContext context) throws Exception
+      {
+         return execute(conn);
+      }
+   }
+
+   interface ExecutionContext
+   {
+      boolean isCancelled();
    }
 }
