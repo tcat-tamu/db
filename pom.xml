@@ -60,9 +60,9 @@
       <url>https://download.citd.tamu.edu/mirror/eclipse.orbit.repository.mirror/</url>
     </repository>
     <repository>
-      <id>Core Deps</id>
+      <id>TCAT OSS Github</id>
       <layout>p2</layout>
-      <url>https://download.citd.tamu.edu/mirror/tcat.dependencies/</url>
+      <url>https://tcat-tamu.github.io/releng/p2/</url>
     </repository>
   </repositories>
 
