@@ -64,12 +64,18 @@ public interface SqlExecutor
        */
       T execute(Connection conn) throws Exception;
 
+      /**
+       * @since 1.2
+       */
       default T execute(Connection conn, ExecutionContext context) throws Exception
       {
          return execute(conn);
       }
    }
 
+   /**
+    * @since 1.2
+    */
    interface ExecutionContext
    {
       boolean isCancelled();

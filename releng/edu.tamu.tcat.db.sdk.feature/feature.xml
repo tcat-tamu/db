@@ -2,7 +2,7 @@
 <feature
       id="edu.tamu.tcat.db.sdk.feature"
       label="TCAT Database Utilities SDK"
-      version="1.2.2.qualifier"
+      version="1.2.3.qualifier"
       provider-name="Texas A&amp;M Engineering Experiment Station">
 
    <description url="http://www.example.com/description">
@@ -33,28 +33,28 @@ limitations under the License.
          id="edu.tamu.tcat.db.postgresql"
          download-size="0"
          install-size="0"
-         version="1.4.1.qualifier"
+         version="1.4.2.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.source"
          download-size="0"
          install-size="0"
-         version="1.4.1.qualifier"
+         version="1.4.2.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core"
          download-size="0"
          install-size="0"
-         version="1.0.3.qualifier"
+         version="1.0.4.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core.source"
          download-size="0"
          install-size="0"
-         version="1.0.3.qualifier"
+         version="1.0.4.qualifier"
          unpack="false"/>
 
    <plugin
@@ -75,28 +75,28 @@ limitations under the License.
          id="edu.tamu.tcat.db.exec"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.exec.source"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="1.2.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.exec"
          download-size="0"
          install-size="0"
-         version="1.2.1.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.exec.source"
          download-size="0"
          install-size="0"
-         version="1.2.1.qualifier"
+         version="1.3.0.qualifier"
          unpack="false"/>
 
 </feature>
