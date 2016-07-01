@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>edu.tamu.tcat</groupId>
-  <artifactId>db</artifactId>
+  <artifactId>oss.db</artifactId>
   <version>1</version>
   <packaging>pom</packaging>
   
@@ -31,7 +31,7 @@
   <properties>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <tycho.showEclipseLog>false</tycho.showEclipseLog>
-    <tycho-version>0.22.0</tycho-version>
+    <tycho-version>0.25.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -39,13 +39,13 @@
   </properties>
   
   <modules>
-    <module>citd.db/releng/edu.tamu.tcat.db.releng/repo.product</module>
-    <module>citd.db/releng/edu.tamu.tcat.db.sdk.feature</module>
-
-    <module>citd.db/bundles/edu.tamu.tcat.db.core</module>
-    <module>citd.db/bundles/edu.tamu.tcat.db.exec</module>
-    <module>citd.db/bundles/edu.tamu.tcat.db.postgresql</module>
-    <module>citd.db/bundles/edu.tamu.tcat.db.postgresql.exec</module>
+    <module>releng/edu.tamu.tcat.db.repo.product</module>
+    <module>releng/edu.tamu.tcat.db.sdk.feature</module>
+            
+    <module>bundles/edu.tamu.tcat.db.core</module>
+    <module>bundles/edu.tamu.tcat.db.exec</module>
+    <module>bundles/edu.tamu.tcat.db.postgresql</module>
+    <module>bundles/edu.tamu.tcat.db.postgresql.exec</module>
   </modules>
 
   <repositories>
@@ -60,9 +60,9 @@
       <url>https://download.citd.tamu.edu/mirror/eclipse.orbit.repository.mirror/</url>
     </repository>
     <repository>
-      <id>Core Deps</id>
+      <id>TCAT OSS Github</id>
       <layout>p2</layout>
-      <url>https://download.citd.tamu.edu/mirror/tcat.dependencies/</url>
+      <url>https://tcat-tamu.github.io/releng/p2/</url>
     </repository>
   </repositories>
 
