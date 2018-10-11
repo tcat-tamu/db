@@ -46,6 +46,7 @@
     <module>bundles/edu.tamu.tcat.db.exec</module>
     <module>bundles/edu.tamu.tcat.db.postgresql</module>
     <module>bundles/edu.tamu.tcat.db.postgresql.exec</module>
+    <module>bundles/edu.tamu.tcat.db.mssql</module>
   </modules>
 
   <repositories>
@@ -63,6 +64,13 @@
       <id>TCAT OSS Github</id>
       <layout>p2</layout>
       <url>https://tcat-tamu.github.io/releng/p2/</url>
+    </repository>
+    <repository>
+      <id>Tcat dependencies</id>
+      <!-- needed for mssql 7.0.0 driver bundle https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-2017 -->
+      <!-- public maven build location available for contents-->
+      <layout>p2</layout>
+      <url>https://download.citd.tamu.edu/mirror/tcat.dependencies/</url>
     </repository>
   </repositories>
 
