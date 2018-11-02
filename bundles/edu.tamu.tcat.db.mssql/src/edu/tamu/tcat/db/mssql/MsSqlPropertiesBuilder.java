@@ -19,8 +19,10 @@ public class MsSqlPropertiesBuilder extends AbstractDatasourcePropertiesBuilder
 
 	   // do these need to be removed from create in ds
 	   public static final String HOST = "Database Server";
-	   public static final String DATABASE = "Database Name";
+	   public static final String DATABASE = "database";
 	   public static final String PORT = "Port";
+	   public static final String USE_INTEGRATED_SECURITY = "integratedSecurity";
+      public static final String TRUST_SERVER_CERTIFICATE = "trustServerCertificate";
 
 	   // package private to prevent non factory construction
 	   /*package*/ MsSqlPropertiesBuilder()
@@ -153,4 +155,22 @@ public class MsSqlPropertiesBuilder extends AbstractDatasourcePropertiesBuilder
 	      properties.setProperty(AbstractDataSourceFactory.MAX_ACTIVE_CONNECTIONS, String.valueOf(max));
 	      return this;
 	   }
-	}
+
+      public MsSqlPropertiesBuilder setUseWindowsCredentials(boolean useCredentials)
+      {
+         properties.setProperty(USE_INTEGRATED_SECURITY, String.valueOf(useCredentials));
+         return this;
+      }
+
+      public MsSqlPropertiesBuilder setTimeout(int timeout)
+      {
+         properties.setProperty(AbstractDataSourceFactory.LOGIN_TIMEOUT, String.valueOf(timeout));
+         return this;
+      }
+
+      public MsSqlPropertiesBuilder setTrustCerverCertificate(boolean trust)
+      {
+         properties.setProperty(TRUST_SERVER_CERTIFICATE, String.valueOf(trust));
+         return this;
+      }
+}

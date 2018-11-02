@@ -30,7 +30,7 @@ public class MsSqlDataSourceFactory  extends AbstractDataSourceFactory
         prop.putAll(parameters);
         // Remove properties used to pass into the MsSqlPropertiesBuilder that do not belong in the set sent to MsSQL
         prop.remove(MsSqlPropertiesBuilder.HOST);
-        prop.remove(MsSqlPropertiesBuilder.DATABASE);
+       // prop.remove(MsSqlPropertiesBuilder.DATABASE);
         prop.remove(MsSqlPropertiesBuilder.PORT);
 
         return prop;
@@ -57,7 +57,7 @@ public class MsSqlDataSourceFactory  extends AbstractDataSourceFactory
             throw new DataSourceException("Could not construct database URL. No database specified");
         }
 
-        sb.append("/").append(database);
+//        sb.append(";database=").append(database);
         return sb.toString();
     }
 
