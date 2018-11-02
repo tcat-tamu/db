@@ -40,6 +40,7 @@ public abstract class AbstractDataSourceFactory
 {
    public final static String MAX_ACTIVE_CONNECTIONS = "Max Active Connections";
    public final static String MAX_IDLE_CONNECTIONS   = "Max Idle Connections";
+   public static final String LOGIN_TIMEOUT = "loginTimeout";
 
     //FIXME: a Properties is an unsafe map key because it is mutable.
     protected Map<Properties, BasicDataSource> dataSources = new HashMap<>();
@@ -112,6 +113,7 @@ public abstract class AbstractDataSourceFactory
         dataSource.setLogAbandoned(true);
         dataSource.setRemoveAbandoned(true);//seconds
         dataSource.setRemoveAbandonedTimeout(60);
+
         return dataSource;
     }
 
