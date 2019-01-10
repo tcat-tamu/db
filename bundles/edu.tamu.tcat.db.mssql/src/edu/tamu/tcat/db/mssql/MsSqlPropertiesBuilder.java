@@ -168,7 +168,7 @@ public class MsSqlPropertiesBuilder extends AbstractDatasourcePropertiesBuilder
          return this;
       }
 
-      public MsSqlPropertiesBuilder setTrustCerverCertificate(boolean trust)
+      public MsSqlPropertiesBuilder setTrustServerCertificate(boolean trust)
       {
          properties.setProperty(TRUST_SERVER_CERTIFICATE, String.valueOf(trust));
          return this;
