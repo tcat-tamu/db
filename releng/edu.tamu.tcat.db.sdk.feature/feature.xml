@@ -118,6 +118,8 @@ limitations under the License.
          download-size="0"
          install-size="0"
          version="1.0.0.dev"
+         os="win32"
+         ws="win32"
          fragment="true"/>
 
 </feature>
