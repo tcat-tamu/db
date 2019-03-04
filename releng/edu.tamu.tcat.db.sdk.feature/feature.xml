@@ -10,11 +10,11 @@
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      Copyright 2014 Texas A&amp;M Engineering Experiment Station
+      Copyright 2014-2019 Texas A&amp;M Engineering Experiment Station
    </copyright>
 
    <license url="http://www.apache.org/licenses/LICENSE-2.0">
-      Copyright 2014 Texas A&amp;M Engineering Experiment Station
+      Copyright 2014-2019 Texas A&amp;M Engineering Experiment Station
 
 Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
 you may not use this file except in compliance with the License.
@@ -33,28 +33,28 @@ limitations under the License.
          id="edu.tamu.tcat.db.postgresql"
          download-size="0"
          install-size="0"
-         version="1.4.3.dev"
+         version="1.5.0.dev"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.source"
          download-size="0"
          install-size="0"
-         version="1.4.3.dev"
+         version="1.5.0.dev"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core"
          download-size="0"
          install-size="0"
-         version="1.0.4.qualifier"
+         version="1.1.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core.source"
          download-size="0"
          install-size="0"
-         version="1.0.4.qualifier"
+         version="1.1.0.qualifier"
          unpack="false"/>
 
    <plugin
