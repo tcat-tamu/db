@@ -47,14 +47,14 @@ limitations under the License.
          id="edu.tamu.tcat.db.core"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="2.0.0.dev"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core.source"
          download-size="0"
          install-size="0"
-         version="1.1.0.qualifier"
+         version="2.0.0.dev"
          unpack="false"/>
 
    <plugin
@@ -120,6 +120,7 @@ limitations under the License.
          download-size="0"
          install-size="0"
          version="1.0.0.dev"
-         fragment="true"/>
+         fragment="true"
+         unpack="false"/>
 
 </feature>
