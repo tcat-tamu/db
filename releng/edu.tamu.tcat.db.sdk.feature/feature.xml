@@ -2,7 +2,7 @@
 <feature
       id="edu.tamu.tcat.db.sdk.feature"
       label="TCAT Database Utilities SDK"
-      version="1.3.2.qualifier"
+      version="1.3.0.qualifier"
       provider-name="Texas A&amp;M Engineering Experiment Station">
 
    <description url="http://www.example.com/description">
