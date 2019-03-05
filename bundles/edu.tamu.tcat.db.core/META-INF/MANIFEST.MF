@@ -4,6 +4,6 @@ Bundle-Name: edu.tamu.tcat.db.core
 Bundle-SymbolicName: edu.tamu.tcat.db.core
 Bundle-Version: 2.0.0.dev
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: edu.tamu.tcat.db.core;version="1.1.0",
- edu.tamu.tcat.db.provider;version="1.1.0"
+Export-Package: edu.tamu.tcat.db.core;version="2.0.0",
+ edu.tamu.tcat.db.provider;version="2.0.0"
 Bundle-Vendor: Texas A&M Engineering Experiment Station

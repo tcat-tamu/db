@@ -28,14 +28,20 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbcp2.ConnectionFactory;
 import org.apache.commons.dbcp2.DriverConnectionFactory;
 
-import edu.tamu.tcat.db.core.AbstractDataSourceFactory;
 import edu.tamu.tcat.db.core.DataSourceException;
 
 /**
- * @since 1.3
+ * @deprecated A simpler and more custom per-application solution should be used. This class
+ *             is to be removed in 2.0 in favor of something like the example provided.
  */
+@Deprecated
 public class PostgreSqlDbcp2DataSourceFactory
 {
+   /** @since 1.5 */
+   public final static String MAX_ACTIVE_CONNECTIONS = "Max Active Connections";
+   /** @since 1.5 */
+   public final static String MAX_IDLE_CONNECTIONS   = "Max Idle Connections";
+
    // The Properties key is ensured immutable to make it a safe key
    private Map<Properties, BasicDataSource> dataSources = new HashMap<>();
    private Driver cachedDriver = null;
@@ -201,15 +207,15 @@ public class PostgreSqlDbcp2DataSourceFactory
 
    protected int getMaxActiveConnections(Properties parameters)
    {
-      if(parameters.containsKey(AbstractDataSourceFactory.MAX_ACTIVE_CONNECTIONS))
-         return Integer.parseInt(parameters.getProperty(AbstractDataSourceFactory.MAX_ACTIVE_CONNECTIONS));
+      if(parameters.containsKey(MAX_ACTIVE_CONNECTIONS))
+         return Integer.parseInt(parameters.getProperty(MAX_ACTIVE_CONNECTIONS));
       return 5;
    }
 
    protected int getMaxIdleConnections(Properties parameters)
    {
-      if(parameters.containsKey(AbstractDataSourceFactory.MAX_IDLE_CONNECTIONS))
-         return Integer.parseInt(parameters.getProperty(AbstractDataSourceFactory.MAX_IDLE_CONNECTIONS));
+      if(parameters.containsKey(MAX_IDLE_CONNECTIONS))
+         return Integer.parseInt(parameters.getProperty(MAX_IDLE_CONNECTIONS));
       return 5;
    }
 
