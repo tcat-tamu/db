@@ -10,3 +10,6 @@ Bundle-NativeCode: lib/auth/x86/sqljdbc_auth.dll;osname=Win32;processor=x86,
  lib/auth/x64/sqljdbc_auth.dll;osname=Win32;processor=x86_64
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-PlatformFilter: (osgi.os=win32)
+Bundle-ClassPath: lib/auth/x64/,
+ lib/auth/x86/,
+ .
