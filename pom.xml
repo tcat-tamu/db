@@ -31,7 +31,7 @@
   <properties>
     <tycho-groupid>org.eclipse.tycho</tycho-groupid>
     <tycho.showEclipseLog>false</tycho.showEclipseLog>
-    <tycho-version>0.25.0</tycho-version>
+    <tycho-version>1.2.0</tycho-version>
     <tycho-extras-version>${tycho-version}</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -46,6 +46,8 @@
     <module>bundles/edu.tamu.tcat.db.exec</module>
     <module>bundles/edu.tamu.tcat.db.postgresql</module>
     <module>bundles/edu.tamu.tcat.db.postgresql.exec</module>
+    <module>bundles/edu.tamu.tcat.db.mssql</module>
+    <module>bundles/edu.tamu.tcat.db.mssql.win32</module>
   </modules>
 
   <repositories>
@@ -63,6 +65,13 @@
       <id>TCAT OSS Github</id>
       <layout>p2</layout>
       <url>https://tcat-tamu.github.io/releng/p2/</url>
+    </repository>
+    <repository>
+      <id>Tcat dependencies</id>
+      <!-- needed for mssql 7.0.0 driver bundle https://docs.microsoft.com/en-us/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server?view=sql-server-2017 -->
+      <!-- public maven build location available for contents-->
+      <layout>p2</layout>
+      <url>https://download.citd.tamu.edu/mirror/tcat.dependencies/</url>
     </repository>
   </repositories>
 
@@ -83,6 +92,11 @@
             <environment>
               <os>linux</os>
               <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
               <arch>x86_64</arch>
             </environment>
           </environments>
