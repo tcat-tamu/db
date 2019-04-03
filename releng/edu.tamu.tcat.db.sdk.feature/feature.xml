@@ -33,42 +33,28 @@ limitations under the License.
          id="edu.tamu.tcat.db.postgresql"
          download-size="0"
          install-size="0"
-         version="1.5.0.dev"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.postgresql.source"
          download-size="0"
          install-size="0"
-         version="1.5.0.dev"
+         version="1.5.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core"
          download-size="0"
          install-size="0"
-         version="2.0.0.dev"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.core.source"
          download-size="0"
          install-size="0"
-         version="2.0.0.dev"
-         unpack="false"/>
-
-   <plugin
-         id="org.postgis"
-         download-size="0"
-         install-size="0"
-         version="2.1.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.postgresql"
-         download-size="0"
-         install-size="0"
-         version="9.3.1102"
+         version="2.0.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -103,14 +89,14 @@ limitations under the License.
          id="edu.tamu.tcat.db.mssql"
          download-size="0"
          install-size="0"
-         version="1.0.0.dev"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="edu.tamu.tcat.db.mssql.source"
          download-size="0"
          install-size="0"
-         version="1.0.0.dev"
+         version="1.0.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -119,7 +105,7 @@ limitations under the License.
          ws="win32"
          download-size="0"
          install-size="0"
-         version="1.0.0.dev"
+         version="1.0.0.qualifier"
          fragment="true"
          unpack="false"/>
 

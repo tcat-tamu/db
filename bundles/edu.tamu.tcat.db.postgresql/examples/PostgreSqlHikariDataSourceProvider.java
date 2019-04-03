@@ -17,7 +17,6 @@ package edu.tamu.tcat.db.mssql.example;
 
 import java.sql.Connection;
 import java.util.Objects;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -27,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import org.postgresql.ds.PGSimpleDataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
@@ -41,9 +40,9 @@ import edu.tamu.tcat.osgi.config.ConfigurationProperties;
  * Each distinct {@link DataSource} used by the app should have a dedicated {@link DataSourceProvider}
  * with its own configuration and metadata (to distinguish among multiple) for application use.
  */
-public class MssqlHikariDataSourceProvider implements DataSourceProvider
+public class PostgreSqlHikariDataSourceProvider implements DataSourceProvider
 {
-   private static final Logger logger = Logger.getLogger(MssqlHikariDataSourceProvider.class.getName());
+   private static final Logger logger = Logger.getLogger(PostgreSqlHikariDataSourceProvider.class.getName());
    private static final String PROP_CONN_TIMEOUT_SEC = "edu.tamu.tcat.db.example.db.conn_timeout_s";
 
    private ConfigurationProperties svcProps;
@@ -83,36 +82,32 @@ public class MssqlHikariDataSourceProvider implements DataSourceProvider
          String password = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.password", String.class);
          Boolean ssl = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.useSsl", Boolean.class, Boolean.FALSE);
          Integer port = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.port", Integer.class);
-         Boolean useIntegrated = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.useIntegrated", Boolean.class, Boolean.FALSE);
-         Boolean trustServerCertificate = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.trustServerCertificate", Boolean.class);
 
          Integer timeoutSec = svcProps.getPropertyValue(PROP_CONN_TIMEOUT_SEC, Integer.class, Integer.valueOf(5));
 
          // Create data source
-         SQLServerDataSource ds = new SQLServerDataSource();
+         PGSimpleDataSource ds = new PGSimpleDataSource();
          ds.setServerName(host);
          if (port != null)
             ds.setPortNumber(port.intValue());
          if (ssl.booleanValue())
-            ds.setSSLProtocol("TLS");
+         {
+            ds.setSsl(true);
+            ds.setSslCert(null);
+            // This mode encrypts traffic but does not use client-side cert config at all
+            // See https://jdbc.postgresql.org/documentation/head/ssl-client.html
+            ds.setSslMode("require");
+         }
 
          ds.setDatabaseName(database);
 
-         if (trustServerCertificate != null)
-         {
-            ds.setTrustServerCertificate(trustServerCertificate.booleanValue());
-         }
          if (user != null && !user.isEmpty() && password != null && ! password.isEmpty())
          {
             ds.setUser(user);
             ds.setPassword(password);
          }
-         else if (useIntegrated.booleanValue())
-         {
-            ds.setIntegratedSecurity(true);
-         }
          else
-            throw new DataSourceException("Username and password or useIntegrated must be specified");
+            throw new DataSourceException("Username and password must be specified");
 
          //logger.info("about to test conn");
 
@@ -144,11 +139,11 @@ public class MssqlHikariDataSourceProvider implements DataSourceProvider
 
                try (Connection connection = hds.getConnection())
                {
-                  logger.fine("DB connection opened successfully by " + MssqlHikariDataSourceProvider.class.getName());
+                  logger.fine("DB connection opened successfully by " + PostgreSqlHikariDataSourceProvider.class.getName());
                }
                catch (Exception e)
                {
-                  logger.log(Level.SEVERE, "Failed connecting to database in " + MssqlHikariDataSourceProvider.class.getName(), e);
+                  logger.log(Level.SEVERE, "Failed connecting to database in " + PostgreSqlHikariDataSourceProvider.class.getName(), e);
                }
                return hds;
             });
@@ -156,7 +151,7 @@ public class MssqlHikariDataSourceProvider implements DataSourceProvider
             try
             {
                this.dataSource = initializer.get(timeoutSec.intValue(), TimeUnit.SECONDS);
-               logger.info("DB connection tested successfully by " + MssqlHikariDataSourceProvider.class.getName());
+               logger.info("DB connection tested successfully by " + PostgreSqlHikariDataSourceProvider.class.getName());
             }
             catch (TimeoutException te)
             {
