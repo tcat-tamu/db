@@ -20,7 +20,9 @@ import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,12 +44,13 @@ import edu.tamu.tcat.osgi.config.ConfigurationProperties;
 public class MssqlHikariDataSourceProvider implements DataSourceProvider
 {
    private static final Logger logger = Logger.getLogger(MssqlHikariDataSourceProvider.class.getName());
+   private static final String PROP_CONN_TIMEOUT_SEC = "edu.tamu.tcat.db.example.db.conn_timeout_s";
 
    private ConfigurationProperties svcProps;
 
    private HikariDataSource dataSource;
 
-   void bind(ConfigurationProperties svc)
+   public void bind(ConfigurationProperties svc)
    {
       this.svcProps = svc;
    }
@@ -83,6 +86,8 @@ public class MssqlHikariDataSourceProvider implements DataSourceProvider
          Boolean useIntegrated = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.useIntegrated", Boolean.class, Boolean.FALSE);
          Boolean trustServerCertificate = svcProps.getPropertyValue("edu.tamu.tcat.db.example.db.trustServerCertificate", Boolean.class);
 
+         Integer timeoutSec = svcProps.getPropertyValue(PROP_CONN_TIMEOUT_SEC, Integer.class, Integer.valueOf(5));
+
          // Create data source
          SQLServerDataSource ds = new SQLServerDataSource();
          ds.setServerName(host);
@@ -109,50 +114,61 @@ public class MssqlHikariDataSourceProvider implements DataSourceProvider
          else
             throw new DataSourceException("Username and password or useIntegrated must be specified");
 
-//         int maxPoolSize = Integer.parseInt(parameters.getProperty("hikari.maxpoolsize", "10")); // default = 10
-//         long connTimeout = Long.parseLong(parameters.getProperty("hikari.connectiontimeout", "60000")); // default = 30s
-//         long idleTimeout = Long.parseLong(parameters.getProperty("hikari.idletimeout", "600000")); // default = 10 minutes
-//         int minIdle = Integer.parseInt(parameters.getProperty("hikari.minidle", String.valueOf(maxPoolSize))); // default = max pool size
+         //logger.info("about to test conn");
 
-         HikariConfig config = new HikariConfig();
-         config.setDataSource(ds);
-
-         this.dataSource = new HikariDataSource(config);// {
-//            @Override
-//            public String toString() {
-//               return super.toString() + " @ " + connectionUrl;
-//            };
-//         };
-//         dataSource.setIdleTimeout(idleTimeout);
-//         dataSource.setMaximumPoolSize(maxPoolSize);
-//         dataSource.setMinimumIdle(minIdle);
-//         dataSource.setConnectionTimeout(connTimeout);
-
-         CountDownLatch latch = new CountDownLatch(1);
          ExecutorService exec = Executors.newSingleThreadExecutor();
          try
          {
-            exec.submit(() -> {
-               try (Connection connection = dataSource.getConnection())
+            Future<HikariDataSource> initializer = exec.submit(() -> {
+               //int maxPoolSize = Integer.parseInt(parameters.getProperty("hikari.maxpoolsize", "10")); // default = 10
+               //long connTimeout = Long.parseLong(parameters.getProperty("hikari.connectiontimeout", "60000")); // default = 30s
+               //long idleTimeout = Long.parseLong(parameters.getProperty("hikari.idletimeout", "600000")); // default = 10 minutes
+               //int minIdle = Integer.parseInt(parameters.getProperty("hikari.minidle", String.valueOf(maxPoolSize))); // default = max pool size
+
+               HikariConfig config = new HikariConfig();
+               //logger.info("setting ds");
+               config.setDataSource(ds);
+               //logger.info("setting cfg");
+
+               HikariDataSource hds = new HikariDataSource(config);// {
+               //   @Override
+               //   public String toString() {
+               //      return super.toString() + " @ " + connectionUrl;
+               //   };
+               //};
+               //dataSource.setIdleTimeout(idleTimeout);
+               //dataSource.setMaximumPoolSize(maxPoolSize);
+               //dataSource.setMinimumIdle(minIdle);
+               //dataSource.setConnectionTimeout(connTimeout);
+               //logger.info("connecting");
+
+               try (Connection connection = hds.getConnection())
                {
-                  latch.countDown();
+                  logger.fine("DB connection opened successfully by " + MssqlHikariDataSourceProvider.class.getName());
                }
                catch (Exception e)
                {
                   logger.log(Level.SEVERE, "Failed connecting to database in " + MssqlHikariDataSourceProvider.class.getName(), e);
                }
-               });
+               return hds;
+            });
+
             try
             {
-               boolean passed = latch.await(5, TimeUnit.SECONDS);
-               if (!passed)
-                  logger.warning("System may not load properly; DB Connection is taking too long according to " + getClass().getName());
-               else
-                  logger.info("DB connection tested successfully by " + MssqlHikariDataSourceProvider.class.getName());
+               this.dataSource = initializer.get(timeoutSec.intValue(), TimeUnit.SECONDS);
+               logger.info("DB connection tested successfully by " + MssqlHikariDataSourceProvider.class.getName());
+            }
+            catch (TimeoutException te)
+            {
+               logger.severe("Failed initializing DB connection (timed out) in " + getClass().getName());
+               if (dataSource != null)
+                  dataSource.close();
             }
             catch (Exception e)
             {
-               logger.warning("Interrupted while awaiting db connection latch in " + getClass().getName());
+               logger.log(Level.SEVERE, "Failed initializing DB connection in " + getClass().getName(), e);
+               if (dataSource != null)
+                  dataSource.close();
             }
          }
          finally
@@ -169,6 +185,8 @@ public class MssqlHikariDataSourceProvider implements DataSourceProvider
    @Override
    public DataSource getDataSource()
    {
+      if (dataSource.isClosed())
+         throw new IllegalStateException("DataSource is unable to create connections");
       return dataSource;
    }
 }
